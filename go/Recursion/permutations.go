@@ -31,7 +31,15 @@ func swap(s string, i, j int) string {
 	return string(r)
 }
 
+func swap_2(array []int, i, j int) []int {
+	temp := array[i]
+	array[i] = array[j]
+	array[j] = temp
+
+	return array
+}
+
 func main() {
-	// fmt.Println(swap("ABCD", 0, 1))
-	PermutationHelper("ABCD", 0)
+	fmt.Println(swap_2([]int{1, 3, 4, 5}, 0, 1))
+	// PermutationHelper("ABCD", 0)
 }
