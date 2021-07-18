@@ -41,7 +41,7 @@ func PrimeOptimized(a int) bool { // O(SqrtofN)
 		return false
 	}
 
-	for i := 5; i*i < a; i++ { // instead of i++ , i += 6
+	for i := 5; i*i <= a; i++ { // instead of i++ , i += 6
 		if a%i == 0 || a%(i+2) == 0 {
 			return false
 		}
@@ -58,5 +58,5 @@ func main() {
 
 	fmt.Println(PrimeOptimized(a))
 	fmt.Println(PrimeOptimized(b))
-	fmt.Println(PrimeOptimized(1041))
+	fmt.Println(PrimeOptimized(25))
 }
