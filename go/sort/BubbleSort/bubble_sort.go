@@ -18,9 +18,7 @@ func bubble(input []int) []int {
 		sorted = true
 		for i := 0; i < custom_index; i++ {
 			if input[i] > input[i+1] {
-				temp := input[i+1]
-				input[i+1] = input[i]
-				input[i] = temp
+				input[i], input[i+1] = input[i+1], input[i]
 				sorted = false
 			}
 		}

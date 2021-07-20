@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+)
 
 func ThreeNumberSort(array []int, order []int) []int {
 	next_index := 0
@@ -39,4 +42,5 @@ func main() {
 	j := []int{0, 1, -1}
 
 	fmt.Println(ThreeNumberSort(i, j))
+	fmt.Println(sort.Ints)
 }
