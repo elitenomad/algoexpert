@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+)
 
 func MissingNumber(input []int) int {
 	result_1 := 0
@@ -20,10 +23,32 @@ func MissingNumber(input []int) int {
 	return result_1 ^ result_2
 }
 
+func MissingNumberNaive(input []int, n int) int {
+	total := make([]int, n)
+	result := 0
+	for i := 1; i <= n; i++ { // 1,2,3,4
+		total[i-1] = i
+	}
+
+	sort.Ints(input)
+	for i, val := range total {
+		if val != input[i] {
+			result = val
+			break
+		}
+	}
+
+	return result
+}
+
 func main() {
 	a := []int{1, 4, 3}
 	fmt.Println(MissingNumber(a))
+	a = []int{1, 4, 3}
+	fmt.Println(MissingNumberNaive(a, 4))
 
 	a = []int{1, 5, 3, 2}
 	fmt.Println(MissingNumber(a))
+	a = []int{1, 5, 3, 2}
+	fmt.Println(MissingNumberNaive(a, 5))
 }
