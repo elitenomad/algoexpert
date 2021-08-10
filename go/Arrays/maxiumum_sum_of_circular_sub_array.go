@@ -16,6 +16,7 @@ func MaximumSumOfCircularSubArray(input []int) int {
 	for i := 0; i < len(input); i++ {
 		current_max := input[i]
 		current_sum := input[i]
+
 		for j := 1; j < len(input); j++ {
 			index := (i + j) % len(input)
 			current_sum += input[index]
