@@ -51,6 +51,6 @@ func trailingZeroesEfficient(n int) int { // O(LOGN), O(1) Time and Space comple
 }
 
 func main() {
-	n_1 := 1000
+	n_1 := 100
 	fmt.Println(trailingZeroesEfficient(n_1))
 }
