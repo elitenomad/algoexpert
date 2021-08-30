@@ -3,33 +3,21 @@ package main
 import "fmt"
 
 func SecondLargestElementOfArray(input []int) int {
-	result := -1
-	largest := 0
+	largest := input[0]
+	prevLargest := input[1]
 
 	for i := 1; i < len(input); i++ {
-		if input[i] > input[largest] {
-			result = largest
-			largest = i
-		}
-
-		if input[i] == input[largest] {
-			continue
-		}
-
-		if input[i] < input[largest] {
-			if result == -1 {
-				result = i
-			}
-
-			if input[i] < input[result] {
-				// Ignore
-			} else {
-				result = i
+		if largest < input[i] {
+			prevLargest = largest
+			largest = input[i]
+		} else {
+			if prevLargest < input[i] {
+				prevLargest = input[i]
 			}
 		}
 	}
 
-	return result
+	return prevLargest
 }
 
 /*
@@ -41,5 +29,7 @@ func SecondLargestElementOfArray(input []int) int {
 
 func main() {
 	a := []int{1, 3, 9, 5, 10, 18, 17, 14} // 18,17,14,10
+	fmt.Println(SecondLargestElementOfArray(a))
+	a = []int{3, 1, 6, 5, 10, 9}
 	fmt.Println(SecondLargestElementOfArray(a))
 }
