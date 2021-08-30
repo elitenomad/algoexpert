@@ -14,15 +14,27 @@ import "fmt"
 	3 possible solutions
 	- Time O(N) Space O(N) (Using Array or Hash)
 	- Time O(LOG(N)) Space O(1) (Sort and Loop through the array)
-	- Time O(N) and Space O(1) --- Head is exploding, Gonna look into solution tomorrow.
+	- Time O(N) a	nd Space O(1) --- Head is exploding, Gonna look into solution tomorrow.
 */
-func RepeatingElement(input []int) int {
+func RepeatingElement(input []int) int { // 1 based indexing
 
 	for i := 0; i < len(input); i++ {
 		input[i], input[input[i]] = input[input[i]], input[i]
 
 	}
 
+	return -1
+}
+
+func repeatingElementInArray(arr []int) int {
+	visited := make(map[int]bool, 0)
+	for i := 0; i < len(arr); i++ {
+		if visited[arr[i]] == true {
+			return arr[i]
+		} else {
+			visited[arr[i]] = true
+		}
+	}
 	return -1
 }
 
