@@ -2,6 +2,7 @@ package main
 
 import "fmt"
 
+// Assuming the array is increasing order
 func IsArraySorted(input []int) bool {
 	for i := 0; i < len(input)-1; i++ {
 		if input[i] > input[i+1] {

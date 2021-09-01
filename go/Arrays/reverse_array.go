@@ -9,6 +9,18 @@ func Reverse(input []int) []int {
 		input[i], input[j] = input[j], input[i]
 	}
 
+	/*
+		low := 0
+		high := len(input) - 1
+		for low < high {
+			temp = input[low]
+			input[low] = input[high]
+			input[high] = temp
+			low++
+			high--
+		}
+	*/
+
 	return input
 } // O(n/2)
 
