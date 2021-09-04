@@ -2,7 +2,8 @@ package main
 
 import "fmt"
 
-func SubArrayWithGivenSum(input []int, sum int) bool {
+// Below function will let us know if sub array exists for a given sum
+func SubArrayWithGivenSumExists(input []int, sum int) bool {
 	prefixSum := 0
 	h := map[int]bool{}
 
@@ -18,7 +19,13 @@ func SubArrayWithGivenSum(input []int, sum int) bool {
 	return false
 }
 
+// Find the subarray with max length given sum
+func SubArrayWithGivenSum(input []int, sum int) int {
+	// Look into longest sub array with a given sum
+	return -1
+}
+
 func main() {
 	a := []int{5, 8, 6, 13, 3, -1}
-	fmt.Println(SubArrayWithGivenSum(a, 5))
+	fmt.Println(SubArrayWithGivenSumExists(a, 5))
 }
