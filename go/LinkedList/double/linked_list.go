@@ -71,26 +71,25 @@ func (l *DoublyLinkedList) Prepend(value int) {
 	// l.Head.Prev will be nil
 }
 
-func (l *DoublyLinkedList) Reverse() {
+// This reverse requires O(N) of auxillary space
+func (l *DoublyLinkedList) Reverse() *DoublyLinkedList {
+	ddl := &DoublyLinkedList{}
 	current := l.Head
 
 	// If linked list is nil or just have only one element
 	// Do nothing and just return
 	if current == nil || current.Next == nil {
-		return
+		return ddl
 	}
 
 	// var prev *Node
 	for current != nil {
-		prev := current.Prev
-		current.Prev = current.Next
-		current.Next = prev
-
+		ddl.Prepend(current.Value) // O(1)
 		// Move to the next element
-		current = current.Prev
+		current = current.Next
 	}
 
-	// l.Head = prev
+	return ddl
 }
 
 func (l *DoublyLinkedList) DeleteHead() {
@@ -153,13 +152,12 @@ func main() {
 	ll.Prepend(5)
 	ll.Print()
 	fmt.Println("")
-	// ll.Reverse()
+	ll.Reverse().Print()
+
+	// ll.DeleteHead()
 	// ll.Print()
+	// fmt.Println()
 
-	ll.DeleteHead()
-	ll.Print()
-	fmt.Println()
-
-	ll.DeleteTail()
-	ll.Print()
+	// ll.DeleteTail()
+	// ll.Print()
 }
