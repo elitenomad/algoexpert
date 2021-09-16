@@ -1,8 +1,6 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 type LinkedListNode struct {
 	Value int
@@ -145,43 +143,74 @@ func (l *LinkedList) Length() {
 	fmt.Println("Size ::", l.Size)
 }
 
-func (l *LinkedList) Reverse() *LinkedListNode {
-	current := l.Head
-	var previous *LinkedListNode
-
-	for current != nil {
-		next := current.Next
-		if current.Next == nil { // Make sure Head is present in the LinkedList
-			l.Head = current
-		}
-		current.Next = previous
-		previous = current
-		current = next
+func (l *LinkedList) Middle() *LinkedListNode {
+	if l.Head == nil {
+		return nil
 	}
 
-	return previous
+	fast := l.Head
+	slow := l.Head
+
+	for fast != nil && fast.Next != nil {
+		fast = fast.Next.Next
+		slow = slow.Next
+	}
+
+	return slow
+}
+
+func (l *LinkedList) KthNodeFromEndOfLinkedList(k int) *LinkedListNode {
+	count := 0
+
+	for current := l.Head; current != nil; current = current.Next {
+		count += 1
+	}
+	fmt.Println(count)
+
+	if count < k || l.Head == nil {
+		return nil
+	}
+
+	forwardCount := count - k
+	current := l.Head
+
+	for i := 0; i < forwardCount; i++ {
+		current = current.Next
+	}
+
+	return current
+}
+
+func (l *LinkedList) KthNodeFromEndOfLinkedListII(k int) *LinkedListNode {
+	if l.Head == nil {
+		return nil
+	}
+
+	second := l.Head
+	for i := 1; i <= k; i++ {
+		second = second.Next
+	}
+
+	first := l.Head
+
+	for second != nil {
+		first = first.Next
+		second = second.Next
+	}
+
+	return first
 }
 
 func main() {
 	linkedList := New()
-	linkedList.append(1)
-	linkedList.append(2)
-	linkedList.append(3)
-	linkedList.append(4)
-	// linkedList.Length()
-	// linkedList.List()
-	// linkedList.prepend(0)
-	// linkedList.List()
-	// linkedList.Length()
-	// fmt.Println(linkedList.find(5))
-	// linkedList.deleteHead()
-	// linkedList.List()
-	// linkedList.Length()
-	// linkedList.deleteTail()
-	// linkedList.List()
-	// linkedList.Length()
-	// linkedList.delete(3)
-	fmt.Println(linkedList.Reverse().Next.Next.Next)
+	linkedList.append(10)
+	linkedList.append(20)
+	linkedList.append(30)
+	linkedList.append(40)
+	linkedList.append(50)
 	linkedList.List()
-	// linkedList.Length()
+
+	fmt.Println(linkedList.Middle())
+	fmt.Println(linkedList.KthNodeFromEndOfLinkedList(2))
+	fmt.Println(linkedList.KthNodeFromEndOfLinkedListII(2))
 }

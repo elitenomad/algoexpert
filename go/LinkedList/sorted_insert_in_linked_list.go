@@ -1,8 +1,6 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 type LinkedListNode struct {
 	Value int
@@ -145,43 +143,49 @@ func (l *LinkedList) Length() {
 	fmt.Println("Size ::", l.Size)
 }
 
-func (l *LinkedList) Reverse() *LinkedListNode {
-	current := l.Head
-	var previous *LinkedListNode
+func (l *LinkedList) SortedInsertOfItem(value int) {
+	head := l.Head
+	node := &LinkedListNode{Value: value}
 
-	for current != nil {
-		next := current.Next
-		if current.Next == nil { // Make sure Head is present in the LinkedList
-			l.Head = current
-		}
-		current.Next = previous
-		previous = current
-		current = next
+	if head == nil {
+		l.Head = node
+		l.Tail = node
+
+		return
 	}
 
-	return previous
+	if head.Value >= value {
+		node.Next = head
+		l.Head = node
+
+		return
+	}
+
+	if value >= l.Tail.Value {
+		l.Tail.Next = node
+		l.Tail = node
+
+		return
+	}
+
+	current := l.Head
+	for current.Next.Value <= value {
+		current = current.Next
+	}
+
+	node.Next = current.Next
+	current.Next = node
 }
 
 func main() {
 	linkedList := New()
-	linkedList.append(1)
-	linkedList.append(2)
-	linkedList.append(3)
-	linkedList.append(4)
-	// linkedList.Length()
-	// linkedList.List()
-	// linkedList.prepend(0)
-	// linkedList.List()
-	// linkedList.Length()
-	// fmt.Println(linkedList.find(5))
-	// linkedList.deleteHead()
-	// linkedList.List()
-	// linkedList.Length()
-	// linkedList.deleteTail()
-	// linkedList.List()
-	// linkedList.Length()
-	// linkedList.delete(3)
-	fmt.Println(linkedList.Reverse().Next.Next.Next)
+	linkedList.append(10)
+	linkedList.append(20)
+	linkedList.append(30)
+
+	linkedList.SortedInsertOfItem(5)
+	linkedList.SortedInsertOfItem(15)
+	linkedList.SortedInsertOfItem(35)
+
 	linkedList.List()
-	// linkedList.Length()
 }

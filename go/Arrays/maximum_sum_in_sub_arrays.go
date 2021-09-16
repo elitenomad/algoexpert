@@ -10,7 +10,6 @@ func max(a, b int) int {
 	return b
 }
 
-//Kadanes algorithm
 func MaximumSumOfSubArrays(input []int) int {
 	total := input[0]
 	n := len(input)
@@ -26,6 +25,7 @@ func MaximumSumOfSubArrays(input []int) int {
 	return total
 }
 
+//Kadanes algorithm
 func KadanesAlgorithm(array []int) int {
 	maxAtEachIndex := array[0]
 	maxSoFar := array[0]
@@ -47,6 +47,10 @@ func main() {
 	fmt.Println(MaximumSumOfSubArrays(a))
 	fmt.Println(KadanesAlgorithm(a))
 	a = []int{5, 8, 3}
+	fmt.Println(MaximumSumOfSubArrays(a))
+	fmt.Println(KadanesAlgorithm(a))
+
+	a = []int{-2, 1, -3, 4, -1, 2, 1, -5, 4}
 	fmt.Println(MaximumSumOfSubArrays(a))
 	fmt.Println(KadanesAlgorithm(a))
 }
