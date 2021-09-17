@@ -177,6 +177,17 @@ func (l *LinkedList) SortedInsertOfItem(value int) {
 	current.Next = node
 }
 
+func (l *LinkedList) RemoveDuplicatesFromSortedLinked() {
+	current := l.Head
+	for current != nil && current.Next != nil {
+		if current.Value == current.Next.Value {
+			current.Next = current.Next.Next
+		} else {
+			current = current.Next
+		}
+	}
+}
+
 func main() {
 	linkedList := New()
 	linkedList.append(10)
@@ -184,8 +195,12 @@ func main() {
 	linkedList.append(30)
 
 	linkedList.SortedInsertOfItem(5)
+	linkedList.SortedInsertOfItem(5)
+	linkedList.SortedInsertOfItem(15)
 	linkedList.SortedInsertOfItem(15)
 	linkedList.SortedInsertOfItem(35)
 
+	linkedList.List()
+	linkedList.RemoveDuplicatesFromSortedLinked()
 	linkedList.List()
 }
