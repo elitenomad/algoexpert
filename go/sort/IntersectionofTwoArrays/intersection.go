@@ -72,4 +72,7 @@ func main() {
 	b := []int{1, 1, 1, 1, 1, 3, 7}
 	fmt.Println(Intersection(a, b))
 	fmt.Println(IntersectionOfTwoSortedArrays(a, b))
+	a = []int{1, 1, 2, 2}
+	b = []int{2, 2}
+	fmt.Println(Intersection(a, b))
 }

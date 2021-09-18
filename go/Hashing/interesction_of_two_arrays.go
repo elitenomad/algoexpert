@@ -45,4 +45,7 @@ func main() {
 	a = []int{10, 10, 10}
 	b = []int{10, 10, 10}
 	fmt.Println(Intersection(a, b))
+	a = []int{1, 2, 2, 1}
+	b = []int{2, 2}
+	fmt.Println(Intersection(a, b))
 }
