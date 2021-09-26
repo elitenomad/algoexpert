@@ -62,10 +62,12 @@ func BalancedParanthesis(input string) bool {
 		}
 	}
 
+	fmt.Println(stack.Elements)
 	return len(stack.Elements) == 0
 }
 
 func main() {
-	s := "[{()]"
+	s := "()[]{}"
+
 	fmt.Println(BalancedParanthesis(s))
 }
