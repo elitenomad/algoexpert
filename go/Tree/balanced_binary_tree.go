@@ -33,7 +33,15 @@ func BalancedBinaryTree(node *Node) bool {
 
 	fmt.Println(count_l1, count_l2)
 
-	return count_l1 == count_l2
+	return abs(count_l1-count_l2) <= 1
+}
+
+func abs(s int) int {
+	if s < 0 {
+		return -s
+	}
+
+	return s
 }
 
 func main() {
@@ -43,10 +51,10 @@ func main() {
 	node.Left.Key = 2
 	node.Right = New()
 	node.Right.Key = 3
-	node.Left.Left = New()
-	node.Left.Right = New()
-	node.Left.Left.Key = 4
-	node.Left.Right.Key = 24
+	// node.Left.Left = New()
+	// node.Left.Right = New()
+	// node.Left.Left.Key = 4
+	// node.Left.Right.Key = 24
 	node.Right.Left = New()
 	node.Right.Right = New()
 	node.Right.Left.Key = 6

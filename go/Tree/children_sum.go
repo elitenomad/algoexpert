@@ -39,8 +39,6 @@ func ChildrenSum(node *Node) bool {
 	return (node.Key == sum) && ChildrenSum(node.Left) && ChildrenSum(node.Right)
 }
 
-func PostOrderTraversal(node *Node)
-
 func main() {
 	node := New()
 	node.Key = 1
