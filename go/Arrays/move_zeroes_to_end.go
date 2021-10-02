@@ -8,7 +8,7 @@ func MoveZeroesToEnd(input []int) []int {
 	for i := 0; i < len(input)/2; i++ {
 		if input[i] == 0 {
 			input[i], input[size] = input[size], input[i]
-			fmt.Println(input)
+			// fmt.Println(input)
 			size = size - 1
 		}
 	}

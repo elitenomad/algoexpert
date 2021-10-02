@@ -11,7 +11,7 @@ import "fmt"
 			- Pre Order
 				- ROOT LEFT RIGHT
 			- Post Order
-				- LEFT RIGHT ROOT
+				-
 */
 
 type Node struct {
