@@ -44,7 +44,7 @@ func StaircaseTraversalHelper(height int, maxSteps int, h map[int]int) int {
 /*
 	StairCase Traversal Linear - Non Recursive
 */
-func StaircaseTraversal(height int, maxSteps int) int {
+func StaircaseTraversalII(height int, maxSteps int) int {
 	result := make([]int, height+1)
 	result[0] = 1
 	result[1] = 1
