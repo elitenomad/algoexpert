@@ -1,67 +1,70 @@
 package main
 
-// func Anagram(s, a string) bool {
+import "fmt"
 
-// 	return s == a
-// }
+// Sort two strings and Compare -- O(NLogN)
+func Anagram(s1, s2 string) bool {
+	h1 := map[byte]int{}
+	h2 := map[byte]int{}
 
-// func getCharCount(str string) map[int]int {
-// 	const charCount = make(map[int]int, 0)
+	if len(s1) != len(s2) {
+		return false
+	}
 
-// 	for i := 0; i < len(str); i++ {
-// 		const rune = str[i]
+	for i := 0; i < len(s1); i++ {
+		h1[s1[i]] += 1
+	}
 
-// 		if charCount[rune] {
-// 			charCount[rune] = 1
-// 		} else {
-// 			charCount[rune]++
-// 		}
-// 	}
+	for i := 0; i < len(s2); i++ {
+		h2[s2[i]] += 1
+	}
 
-// 	return charCount
-// }
-
-// func Anagram(s, a string) bool {
-// 	if len(s) != len(a) {
-// 		return false
-// 	}
-
-// 	const firstCharCount = getCharCount(s)
-// 	const secondCharCount = getCharCount(a)
-
-// 	for k, v := range secondCharCount {
-// 		if firstCharCount[k] != secondCharCount[k] {
-// 			return false
-// 		}
-// 	}
-
-// 	return true
-// }
-
-func Anagram(s, a string) bool {
-	/*
-		A , B
-		maskA and maskB
-
-		loop through size of s
-		# if s != a size return false
-		#
-		for i = 0 i < s i++ {
-			pos = s[i] - 'a'
-			maskA += (1 << pos)
+	for k, v := range h2 {
+		if _, found := h1[k]; !found {
+			return false
 		}
 
-		for i = 0 ; i < s ; i++ {
-			pos = a[i] - 'a'
-			maskB += (1 << ps)
+		if v > h1[k] {
+			return false
 		}
+	}
 
-		maskA == maskB
-	*/
+	return true
+}
 
-	return false
+/*
+	Another approach to have constant Auxillary space
+	Create a char array with int counts
+	Loop through First array and then increament the char counts
+	Loop through second array and then decrement the char counts
+	Loop through CHar counts
+		- If its not 0  then return false
+		- Else return true
+*/
+
+func AnagramWithConstantSpace(s string, t string) bool {
+	r := make([]rune, 26)
+
+	for i := 0; i < len(s); i++ {
+		r[s[i]-'a'] += 1
+	}
+
+	for i := 0; i < len(t); i++ {
+		r[t[i]-'a'] -= 1
+	}
+
+	for i := 0; i < len(r); i++ {
+		if r[i] != 0 {
+			return false
+		}
+	}
+
+	return true
 }
 
 func main() {
-
+	a := "silent"
+	b := "listen"
+	fmt.Println(Anagram(a, b))
+	fmt.Println(AnagramWithConstantSpace(a, b))
 }
