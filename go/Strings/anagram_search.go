@@ -8,7 +8,6 @@ import (
 // Given two strings s1 and s2, return true if s2 contains a permutation of s1,
 // or false otherwise. In other words, return true if one of s1's permutations
 // is the substring of s2.
-
 func checkInclusion(s1 string, s2 string) bool { // Solution exceeds TLE
 	return checkInclusionHelper(s1, s2, 0, len(s1)-1)
 }
@@ -33,33 +32,34 @@ func checkInclusionHelper(s string, t string, left, right int) bool {
 }
 
 // Second approach by taking the counts of char in both the strings
-
-func checkInclusionII(s1 string, s2 string) bool {
-	// Use case when s1 length > s2 length
-	fmt.Println(len(s1))
-	fmt.Println(len(s2))
-	if len(s1) > len(s2) {
+func IsAnagram(s1 string, pattern string) bool {
+	if len(s1) != len(pattern) {
 		return false
 	}
 
-	s1Map := make([]int, 26)
+	chars := make([]int, 26)
 	for i := 0; i < len(s1); i++ {
-		s1Map[s1[i]-'a'] += 1
+		chars[s1[i]-'a'] += 1
+		chars[pattern[i]-'a'] -= 1
 	}
-	fmt.Println(s1Map)
 
-	for i := 0; i <= len(s2); i++ {
-		s2Map := make([]int, 26)
-		for j := 0; j < len(s1); j++ {
-			s2Map[s2[i+j]-'a'] += 1
+	for i := 0; i < len(chars); i++ {
+		if chars[i] != 0 {
+			return false
 		}
+	}
 
-		fmt.Println(s2Map)
-		if matches(s1Map, s2Map) {
+	return true
+}
+func VerifyIfAnagramIsPresent(s1 string, s2 string) bool {
+	n := len(s1)
+	m := len(s2)
+
+	for i := 0; i < n-m+1; i++ {
+		if IsAnagram(s1[i:i+m], s2) {
 			return true
 		}
 	}
-
 	return false
 }
 
@@ -72,9 +72,36 @@ func matches(s1Map []int, s2Map []int) bool {
 	return true
 }
 
-func main() {
-	s1 := "ab"
-	s2 := "eidbaooo"
+func VerifyIfAnagramIsPresentII(s1 string, s2 string) bool {
+	n := len(s1)
+	m := len(s2)
 
-	fmt.Println(checkInclusionII(s1, s2))
+	s1Slice := make([]int, 256)
+	s2Slice := make([]int, 256)
+
+	for i := 0; i < m; i++ {
+		s1Slice[s1[i]] += 1
+		s2Slice[s2[i]] += 1
+	}
+
+	for i := m; i < n; i++ {
+
+		if matches(s1Slice, s2Slice) {
+			return true
+		}
+
+		s1Slice[s1[i]] += 1
+		s1Slice[s1[i-m]] -= 1
+	}
+
+	return false
+}
+
+func main() {
+	// s1 := "eidbaooo"
+	// s2 := "ab"
+	// fmt.Println(VerifyIfAnagramIsPresent(s1, s2))
+	s1 := "geeksfargeeks"
+	s2 := "frog"
+	fmt.Println(VerifyIfAnagramIsPresentII(s1, s2))
 }
