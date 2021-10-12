@@ -58,5 +58,5 @@ func main() {
 	a = []int{1, 2, 3, 4, 5}
 	fmt.Println(LeftRotateByDSpacesII(a, 3))
 	a = []int{1, 2, 3, 4, 5}
-	fmt.Println(LeftRotateByDSpacesEfficient(a, 3))
+	fmt.Println(LeftRotateByDSpacesEfficient(a, 2))
 }
