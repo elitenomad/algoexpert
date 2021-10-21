@@ -41,14 +41,34 @@ func MissingNumberNaive(input []int, n int) int {
 	return result
 }
 
+func MissingNumbers(input []int) []int {
+	total := []int{}
+
+	for i, target := 0, input[0]; target <= input[len(input)-1]; target++ { // 3,4,7,8
+		if input[i] != target {
+			total = append(total, target)
+		} else {
+			i++
+		}
+	}
+
+	return total
+}
+
 func main() {
 	a := []int{1, 4, 3}
 	fmt.Println(MissingNumber(a))
-	a = []int{1, 4, 3}
-	fmt.Println(MissingNumberNaive(a, 4))
+	// a = []int{1, 4, 3}
+	// fmt.Println(MissingNumberNaive(a, 4))
 
-	a = []int{1, 5, 3, 2}
-	fmt.Println(MissingNumber(a))
-	a = []int{1, 5, 3, 2}
-	fmt.Println(MissingNumberNaive(a, 5))
+	// a = []int{1, 5, 3, 2}
+	// fmt.Println(MissingNumber(a))
+	// a = []int{1, 5, 3, 2}
+	// fmt.Println(MissingNumberNaive(a, 5))
+
+	// a = []int{2, 5, 1, 4, 9, 6, 3, 7}
+	// fmt.Println(MissingNumber(a))
+
+	a = []int{3, 4, 7, 8}
+	fmt.Println(MissingNumbers(a))
 }

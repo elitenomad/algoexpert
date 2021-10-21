@@ -61,4 +61,6 @@ func main() {
 	PeakElement(a)
 	fmt.Println(PeakElementLogOfN(a))
 	fmt.Println()
+	a = []int{10, 20}
+	fmt.Println(PeakElementLogOfN(a))
 }

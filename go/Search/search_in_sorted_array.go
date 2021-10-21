@@ -80,7 +80,7 @@ func SortedRotatedSearchImprovise(input []int, n int) int {
 			return mid
 		}
 
-		if input[low] < input[mid] {
+		if input[low] <= input[mid] {
 			//Left half sorted
 			if n >= input[low] && n < input[mid] {
 				// No need to check for <= input[mid]as we already did at line: 79
