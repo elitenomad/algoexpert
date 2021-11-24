@@ -52,7 +52,7 @@ func SquareRoortUsingBS(n int) int {
 
 func main() {
 	a := 10
-	fmt.Println(SquareRoortUsingBS(a))
-	fmt.Println(SquareRoortUsingBS(16))
-	fmt.Println(SquareRoortUsingBS(1024))
+	fmt.Println(SquareRoot(a))
+	fmt.Println(SquareRoot(16))
+	fmt.Println(SquareRoot(1024))
 }

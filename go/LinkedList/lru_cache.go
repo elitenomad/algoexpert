@@ -3,59 +3,30 @@ package main
 import "fmt"
 
 type Node struct {
-	Value   int
-	Next    *Node
-	Visited bool
+	Key   int
+	Value int
+	Next  *Node
+	Prev  *Node
 }
 
-type LinkedList struct {
+type LinkedList struct { // DLL
 	Head *Node
+	Tail *Node
 	Size int
 }
 
-func NewLinkedList() *LinkedList {
-	return &LinkedList{
-		Head: nil,
-	}
+type LRUCache struct {
+	Capacity int
+	Size     int
+	Data     map[int]*Node
+	List     *LinkedList
 }
 
-func NewNode(value int) *Node {
-	return &Node{
-		Value: value,
-		Next:  nil,
+func New(cap int) *LRUCache {
+	return &LRUCache{
+		Capacity: cap,
+		List:     &LinkedList{},
 	}
-}
-
-func (l *LinkedList) Append(value int) {
-	node := NewNode(value)
-
-	// Verify if there is a Head
-	if l.Head == nil {
-		l.Head = node
-
-		return
-	}
-
-	current := l.Head
-	for current.Next != nil {
-		current = current.Next
-	}
-
-	current.Next = node
-}
-
-func (l *LinkedList) ReturnANode(val int) *Node {
-	current := l.Head
-
-	for current != nil {
-		if current.Value == val {
-			return current
-		}
-
-		current = current.Next
-	}
-
-	return nil
 }
 
 func (l *LinkedList) List() {
@@ -68,15 +39,62 @@ func (l *LinkedList) List() {
 	}
 }
 
+func (l *LinkedList) DeleteNode(node *Node) {
+	node.Prev.Next = node.Next.Next
+	node.Next.Prev = node.Prev
+}
+
+func (l *LinkedList) AddToHead(node *Node) {
+	l.Head.Prev = node
+	node.Next = l.Head
+	l.Head = node // decide on head
+}
+
+func (c *LRUCache) Get(key, val int) int {
+	// Get function should not only get the value
+	// But should move the node found to the MRU
+	if node, found := c.Data[key]; found {
+		result := node.Value
+		c.List.DeleteNode(node)
+		c.List.AddToHead(node)
+		c.Data[key] = node // Not required but ensuring
+		return result
+	}
+
+	return -1
+}
+
+func (c *LRUCache) Set(key, val int) {
+	// First find the value by the Key
+	// 	If it exists, replace the value
+	//	Delete Node
+	// 	Add it to Head
+
+	// If the Key do not exist
+	// Verify if we reached the capacity
+	//	If we reached Capacity delete tail from list and map
+	// 	Add the node to the head
+	// 	If we didnt reach the capacity
+	//	Increase the size and add the node to head.
+	if node, found := c.Data[key]; found {
+		node.Value = val
+		c.List.DeleteNode(node)
+		c.List.AddToHead(node)
+	} else {
+		node := &Node{Key: key, Value: val}
+		c.Data[key] = node
+		if c.Size < c.Capacity {
+			c.Size += 1
+			c.List.AddToHead(node)
+		} else {
+			delete(c.Data, c.List.Tail.Key)
+			c.List.DeleteNode(c.List.Tail)
+			c.List.AddToHead(node)
+		}
+	}
+}
+
 func main() {
-	ll := NewLinkedList()
+	// ll := New(5)
 
-	ll.Append(5)
-	ll.Append(8)
-	ll.Append(7)
-	ll.Append(10)
-	ll.Append(12)
-	ll.Append(15)
-
-	ll.List()
 }

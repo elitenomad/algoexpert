@@ -119,18 +119,48 @@ func (l *CircularLinkedList) Print() {
 	}
 }
 
+func (l *CircularLinkedList) InsertInSortedList(value int) {
+	node := &Node{Value: value}
+
+	// Linked List is empty
+	// Linked List Head value is > value given
+	// Node is inserted somewhere after head
+
+	current := l.Head
+	if l == nil {
+		l.Head = node
+		l.Head.Next = node
+	} else if current.Value >= node.Value {
+		for current.Next != l.Head {
+			current = current.Next
+		}
+
+		current.Next = node
+		node.Next = l.Head
+		l.Head = node
+	} else {
+		current = l.Head
+		for current.Next != l.Head && current.Next.Value < node.Value {
+			current = current.Next
+		}
+
+		node.Next = current.Next
+		current.Next = node
+	}
+}
+
 func main() {
 	/*
 		Goal is to manually create a Doubly Linked list with values
 		10, 20 and 30
 	*/
 	ll := NewCircularLinkedList()
+	ll.Append(5)
 	ll.Append(10)
-	ll.Append(20)
-	ll.Append(30)
-	ll.Prepend(5)
-	ll.DeleteHead()
-
+	ll.Append(15)
+	// ll.Prepend(5)
+	// ll.DeleteHead()
+	ll.InsertInSortedList(0)
 	ll.Print()
 	fmt.Println("")
 }

@@ -17,8 +17,9 @@ type Bucket struct {
 }
 
 type BucketNode struct {
-	Key  string
-	Next *BucketNode
+	Key   string
+	Value int
+	Next  *BucketNode
 }
 
 func (h *HashMap) fetchHashKey(key string) int {
