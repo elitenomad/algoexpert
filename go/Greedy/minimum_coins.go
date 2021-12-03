@@ -11,8 +11,8 @@ func MinimumCoins(input []int, amount int) int {
 	result := 0
 	sort.Sort(sort.Reverse(sort.IntSlice(input)))
 
+	fmt.Println(input)
 	for i := 0; i < len(input); i++ {
-		fmt.Println(input[i])
 		if input[i] <= amount {
 			result += (amount / input[i])
 			amount = amount % input[i]
