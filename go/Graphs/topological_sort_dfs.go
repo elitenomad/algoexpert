@@ -2,6 +2,56 @@ package main
 
 import "fmt"
 
+// Kahn's Algorithm - Print Topological sort values
+
+// Stack Implementation
+type Node struct {
+	v    Vertex
+	next *Node
+}
+
+type Stack struct {
+	head *Node
+	tail *Node
+}
+
+func (q *Stack) Push(v *Vertex) {
+	n := &Node{v: *v}
+
+	// If stack is empty
+	if q.tail == nil {
+		q.head = n
+		q.tail = n
+		return
+	}
+
+	previousHead := q.head
+	q.head = n
+	q.head.next = previousHead
+}
+
+func (q *Stack) Pop() *Vertex {
+	n := q.head
+
+	if n == nil {
+		return nil
+	}
+
+	q.head = q.head.next
+
+	if q.head == nil {
+		q.tail = nil
+	}
+
+	return &n.v
+}
+
+func (q *Stack) IsEmpty() bool {
+	return q.head == nil && q.tail == nil
+}
+
+// END OF QUEUE Implementation
+
 type Vertex struct {
 	Key      int
 	Vertices []*Vertex
@@ -58,7 +108,7 @@ func (g *Graph) AddEdge(from, to int) {
 	}
 
 	fromVertex.Vertices = append(fromVertex.Vertices, toVertex)
-	if g.Directed {
+	if !g.Directed {
 		toVertex.Vertices = append(toVertex.Vertices, fromVertex)
 	}
 }
@@ -99,43 +149,66 @@ func (g *Graph) Print() {
 	}
 }
 
+func (g *Graph) IngressOfVertices() []int {
+	ingress := make([]int, len(g.Vertices))
+
+	for _, v := range g.Vertices {
+		for _, u := range v.Vertices {
+			ingress[u.Key] += 1
+		}
+	}
+
+	return ingress
+}
+
 func visitCb(key int) {
 	fmt.Println(key)
 }
 
-func (g *Graph) DFSRecursive(startVertexKey int, visitedVertices []bool, parent int) bool {
-	visitedVertices[startVertexKey] = true
-	currentVertex := g.GetVertex(startVertexKey)
+// For a graph there are multiple versions of topological sort
 
+// Algorithm
+//	Create an empty stack
+// 	For every vertex, do the following
+//	 	if u is not visited:
+//			DFS(u, stack)
+//	for stack is not empty:
+//		pop the item from the stack
+func (g *Graph) DFSRecursive(startVertex *Vertex, visitedVertices []bool, stack *Stack) {
+	visitedVertices[startVertex.Key] = true
+	// visitCb(startVertex.Key)
+	currentVertex := g.GetVertex(startVertex.Key)
 	for _, v := range currentVertex.Vertices {
-		if !visitedVertices[v.Key] {
-			if g.DFSRecursive(v.Key, visitedVertices, currentVertex.Key) == true {
-				return true
-			}
-		} else if v.Key != parent {
-			return true
+		if visitedVertices[v.Key] {
+			continue
 		}
+
+		g.DFSRecursive(v, visitedVertices, stack)
 	}
 
-	return false
+	(*stack).Push(startVertex)
 }
 
-func (g *Graph) CycleExistsUsingDFS() bool {
+func (g *Graph) TopologicalSortDFS() {
 	visitedVertices := make([]bool, len(g.Vertices))
+	stack := &Stack{}
 
 	for _, v := range g.Vertices {
-		if !visitedVertices[v.Key] {
-			if g.DFSRecursive(v.Key, visitedVertices, -1) == true {
-				return true
-			}
+		if visitedVertices[v.Key] {
+			continue
 		}
+
+		g.DFSRecursive(v, visitedVertices, stack)
 	}
 
-	return false
+	for !stack.IsEmpty() {
+		popper := stack.Pop()
+		fmt.Println(popper.Key)
+	}
 }
 
 func main() {
-	g := NewGraph(false)
+	g := NewGraph(true)
 
 	g.AddVertex(0)
 	g.AddVertex(1)
@@ -145,14 +218,11 @@ func main() {
 	g.AddVertex(5)
 
 	g.AddEdge(0, 1)
-	g.AddEdge(1, 2)
-	g.AddEdge(2, 4)
-	g.AddEdge(4, 5)
-	g.AddEdge(1, 3)
+	g.AddEdge(2, 1)
 	g.AddEdge(2, 3)
+	g.AddEdge(3, 4)
+	g.AddEdge(4, 5)
+	// g.AddEdge(5, 3)
 
-	// fmt.Println(g.GetVertex(1).Vertices[1].Vertices[0].Key)
-
-	// startVertex := &Vertex{Key: 3}
-	fmt.Println(g.CycleExistsUsingDFS())
+	g.TopologicalSortDFS()
 }

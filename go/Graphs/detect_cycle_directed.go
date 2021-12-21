@@ -2,6 +2,12 @@ package main
 
 import "fmt"
 
+// Queue Implementation start
+
+// Queue Implementation end
+
+// Graph implemenation start
+
 type Vertex struct {
 	Key      int
 	Vertices []*Vertex
@@ -58,7 +64,7 @@ func (g *Graph) AddEdge(from, to int) {
 	}
 
 	fromVertex.Vertices = append(fromVertex.Vertices, toVertex)
-	if g.Directed {
+	if !g.Directed {
 		toVertex.Vertices = append(toVertex.Vertices, fromVertex)
 	}
 }
@@ -103,29 +109,37 @@ func visitCb(key int) {
 	fmt.Println(key)
 }
 
-func (g *Graph) DFSRecursive(startVertexKey int, visitedVertices []bool, parent int) bool {
-	visitedVertices[startVertexKey] = true
-	currentVertex := g.GetVertex(startVertexKey)
+// Graph implemenation end
 
+func (g *Graph) DFSRecursive(startVertexKey int, visitedVertices *[]bool, recursionCallStackVs *[]bool) bool {
+	(*visitedVertices)[startVertexKey] = true
+	(*recursionCallStackVs)[startVertexKey] = true
+
+	currentVertex := g.GetVertex(startVertexKey)
+	fmt.Println(startVertexKey, currentVertex.Vertices)
 	for _, v := range currentVertex.Vertices {
-		if !visitedVertices[v.Key] {
-			if g.DFSRecursive(v.Key, visitedVertices, currentVertex.Key) == true {
+		if !(*visitedVertices)[v.Key] {
+			if g.DFSRecursive(v.Key, visitedVertices, recursionCallStackVs) == true {
 				return true
 			}
-		} else if v.Key != parent {
+		} else if (*recursionCallStackVs)[v.Key] == true {
+			fmt.Println(v.Key, *recursionCallStackVs, *visitedVertices)
+
 			return true
 		}
 	}
 
+	(*recursionCallStackVs)[startVertexKey] = false
 	return false
 }
 
-func (g *Graph) CycleExistsUsingDFS() bool {
+func (g *Graph) CycleExistsUsingDFSForDirected() bool {
 	visitedVertices := make([]bool, len(g.Vertices))
+	recursionCallStackVs := make([]bool, len(g.Vertices))
 
 	for _, v := range g.Vertices {
 		if !visitedVertices[v.Key] {
-			if g.DFSRecursive(v.Key, visitedVertices, -1) == true {
+			if g.DFSRecursive(v.Key, &visitedVertices, &recursionCallStackVs) == true {
 				return true
 			}
 		}
@@ -135,7 +149,7 @@ func (g *Graph) CycleExistsUsingDFS() bool {
 }
 
 func main() {
-	g := NewGraph(false)
+	g := NewGraph(true)
 
 	g.AddVertex(0)
 	g.AddVertex(1)
@@ -145,14 +159,11 @@ func main() {
 	g.AddVertex(5)
 
 	g.AddEdge(0, 1)
-	g.AddEdge(1, 2)
-	g.AddEdge(2, 4)
-	g.AddEdge(4, 5)
-	g.AddEdge(1, 3)
+	g.AddEdge(2, 1)
 	g.AddEdge(2, 3)
+	g.AddEdge(3, 4)
+	g.AddEdge(4, 5)
+	g.AddEdge(5, 3)
 
-	// fmt.Println(g.GetVertex(1).Vertices[1].Vertices[0].Key)
-
-	// startVertex := &Vertex{Key: 3}
-	fmt.Println(g.CycleExistsUsingDFS())
+	fmt.Println(g.CycleExistsUsingDFSForDirected())
 }

@@ -181,8 +181,45 @@ func (g *Graph) ShortestPaths(startVertexKey int) []int {
 	return distanceVertices
 }
 
-// Graph Implementation end
+func (g *Graph) ShortestPathPractice(startVertexKey int) []int {
+	// Handle a use case when the vertex is not present in the Graph
+	// That way you are informing interviewer that you are thinking of all
+	// the use cases.
 
+	// Fetch the vertex
+	startVertex := g.GetVertex(startVertexKey)
+
+	// Initialize Queue
+	queue := &Queue{}
+
+	// Have hash or array to know the visited vertices
+	visitedVertices := make([]bool, len(g.Vertices))
+	distanceVertices := make([]int, len(g.Vertices))
+
+	// Start with Initial value, push it to queue
+	queue.enqueue(startVertex)
+
+	// Visited the first vertex
+	visitedVertices[startVertex.Key] = true
+	distanceVertices[startVertex.Key] = 0
+
+	for !queue.isEmpty() {
+		u := queue.dequeue()
+
+		for _, v := range u.Vertices {
+			if !visitedVertices[v.Key] {
+				distanceVertices[v.Key] = distanceVertices[u.Key] + 1
+
+				visitedVertices[v.Key] = true
+				queue.enqueue(v)
+			}
+		}
+	}
+
+	return distanceVertices
+}
+
+// Graph Implementation end
 func main() {
 	g := NewGraph(false)
 
@@ -198,4 +235,5 @@ func main() {
 	g.AddEdge(2, 3)
 
 	fmt.Println(g.ShortestPaths(0))
+	fmt.Println(g.ShortestPathPractice(0))
 }

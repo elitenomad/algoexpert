@@ -27,18 +27,18 @@ func LongestCommonSubsequenceII(s1, s2 string) int {
 	m := len(s1)
 	n := len(s2)
 
-	cache := make([][]int, m)
-	for i := 0; i < m; i++ {
-		cache[i] = make([]int, n)
+	cache := make([][]int, m+1)
+	for i := 0; i <= m; i++ {
+		cache[i] = make([]int, n+1)
 	}
 
-	for i := 0; i < m; i++ {
-		for j := 0; j < n; j++ {
+	for i := 0; i <= m; i++ {
+		for j := 0; j <= n; j++ {
 			cache[i][j] = -1
 		}
 	}
 
-	return LongestCommonSubsequenceHelperII(s1, s2, len(s1)-1, len(s2)-1, &cache)
+	return LongestCommonSubsequenceHelperII(s1, s2, len(s1), len(s2), &cache)
 }
 
 func LongestCommonSubsequenceHelperII(s1, s2 string, m, n int, cache *[][]int) int {
@@ -110,8 +110,8 @@ func LongestCommonSubsequenceIII(s1, s2 string) int {
 */
 
 func main() {
-	s1 := "ABCDGH"
-	s2 := "AEDFHR"
+	s1 := "bbbab"
+	s2 := "babbb"
 	fmt.Println(LongestCommonSubsequence(s1, s2))
 	fmt.Println(LongestCommonSubsequenceII(s1, s2))
 	fmt.Println(LongestCommonSubsequenceIII(s1, s2))
