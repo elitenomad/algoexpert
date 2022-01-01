@@ -13,8 +13,8 @@ import "fmt"
 	fmt.Println(RepeatingElement(a))
 	3 possible solutions
 	- Time O(N) Space O(N) (Using Array or Hash)
-	- Time O(LOG(N)) Space O(1) (Sort and Loop through the array)
-	- Time O(N) a	nd Space O(1) --- Head is exploding, Gonna look into solution tomorrow.
+	- Time O(NLOG(N)) Space O(1) (Sort and Loop through the array)
+	- Time O(N) and Space O(1) --- Head is exploding, Gonna look into solution tomorrow.
 */
 func RepeatingElement(input []int) int { // 1 based indexing
 
@@ -36,6 +36,24 @@ func repeatingElementInArray(arr []int) int {
 		}
 	}
 	return -1
+}
+
+func repeatingElementArrayII(input []int) int { // arr from 1..n
+	slow := input[0]
+	fast := input[0]
+
+	for slow != fast {
+		slow = input[slow]
+		fast = input[input[fast]]
+	}
+
+	slow = input[0]
+	for slow != fast {
+		slow = input[slow]
+		fast = input[fast]
+	}
+
+	return slow
 }
 
 func main() {

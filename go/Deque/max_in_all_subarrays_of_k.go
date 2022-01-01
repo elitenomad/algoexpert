@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"gopkg.in/karalabe/cookiejar.v1/collections/deque"
+	"github.com/gammazero/deque"
 )
 
 // Brute Force
@@ -27,34 +27,32 @@ func MaxInAllSubArraysOfK(input []int, k int) []int {
 // Using Deque Data structure
 
 func MaxOfEachSubArrayofSizeK(input []int, k int) {
-	d := deque.New()
+	var deque deque.Deque
 
 	for i := 0; i < k; i++ {
-		for !deque.IsEmpty() && deque.GetRear() >= 0 && input[i] >= input[deque.GetRear()] {
-			deque.DeleteRear()
+		for (deque.Len() > 0) && input[i] >= input[deque.Back().(int)] {
+			deque.PopBack()
 		}
-		deque.InsertRear(i)
+
+		deque.PushBack(i)
 	}
 
 	for i := k; i < len(input); i++ {
-		if deque.GetRear() >= 0 {
-			fmt.Println(input[deque.GetRear()])
+
+		fmt.Println(input[deque.Front().(int)])
+
+		for deque.Len() > 0 && deque.Front().(int) <= i-k {
+			deque.PopFront()
+			fmt.Println(deque)
 		}
 
-		for !deque.IsEmpty() && deque.GetRear() <= i-k {
-			deque.DeleteFront()
+		for deque.Len() > 0 && input[i] >= input[deque.Back().(int)] {
+			deque.PopBack()
 		}
 
-		for !deque.IsEmpty() && deque.GetRear() >= 0 && input[i] >= input[deque.GetRear()] {
-			deque.DeleteRear()
-		}
-
-		deque.InsertRear(i)
+		deque.PushBack(i)
 	}
 
-	if deque.GetRear() >= 0 {
-		fmt.Println(input[deque.GetRear()])
-	}
 }
 
 func max(a, b int) int {
@@ -69,4 +67,24 @@ func main() {
 	a := []int{10, 8, 5, 12, 15, 7, 6}
 	k := 3
 	MaxOfEachSubArrayofSizeK(a, k)
+
+	// var q deque.Deque
+	// q.PushBack("foo")
+	// q.PushBack("bar")
+	// q.PushBack("baz")
+
+	// fmt.Println(q.Len())   // Prints: 3
+	// fmt.Println(q.Front()) // Prints: foo
+	// fmt.Println(q.Back())  // Prints: baz
+
+	// q.PopFront() // remove "foo"
+	// q.PopBack()  // remove "baz"
+
+	// q.PushFront("hello")
+	// q.PushBack("world")
+
+	// // Consume deque and print elements.
+	// for q.Len() != 0 {
+	// 	fmt.Println(q.PopFront())
+	// }
 }

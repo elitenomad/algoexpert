@@ -19,7 +19,21 @@ func Init() *BST {
 	return &BST{}
 }
 
-func Search(tree *BST, value int) bool {
+func SearchIterative(tree *BST, value int) bool { // O(h) and O(1)
+	for tree != nil {
+		if tree.Value == value {
+			return true
+		} else if value < tree.Value {
+			tree = tree.Left
+		} else if value > tree.Value {
+			tree = tree.Right
+		}
+	}
+
+	return false
+}
+
+func Search(tree *BST, value int) bool { // O(h) and O(h) auxillary stack space because of recursive
 	if tree == nil {
 		return false
 	}
@@ -32,7 +46,63 @@ func Search(tree *BST, value int) bool {
 		return Search(tree.Right, value)
 	}
 
-	return false // Has to be false at this place.
+	return false
+}
+
+func InsertIterative(tree *BST, value int) *BST {
+	if tree == nil {
+		bst := Init()
+		bst.Value = value
+		return bst
+	}
+
+	current := tree
+	for current != nil {
+		if value == current.Value {
+			return tree
+		} else if value < current.Value {
+			if current.Left == nil {
+				current.Left = &BST{Value: value}
+			} else {
+				current = current.Left
+			}
+		} else if value > current.Value {
+			if current.Right == nil {
+				current.Right = &BST{Value: value}
+			} else {
+				current = current.Right
+			}
+		}
+	}
+
+	return tree
+}
+
+func InsertIterativeII(tree *BST, value int) *BST {
+	bst := Init()
+	bst.Value = value
+
+	current := tree
+	var parent *BST
+
+	for current != nil {
+		parent = current
+		if value == current.Value {
+			return tree
+		} else if value < current.Value {
+			current = current.Left
+		} else if value > current.Value {
+			current = current.Right
+		}
+	}
+
+	if value < parent.Value {
+		parent.Left = bst
+	} else if value > parent.Value {
+		parent.Right = bst
+	}
+
+	return tree
 }
 
 func Insert(tree *BST, value int) *BST {
@@ -57,9 +127,9 @@ func Delete(tree *BST, value int) *BST {
 	}
 
 	if value < tree.Value {
-		tree.Left = Insert(tree.Left, value)
+		tree.Left = Delete(tree.Left, value)
 	} else if value > tree.Value {
-		tree.Right = Insert(tree.Right, value)
+		tree.Right = Delete(tree.Right, value)
 	} else {
 		if tree.Left == nil {
 			return tree.Right
@@ -90,18 +160,20 @@ func Floor(root *BST, value int) int { // Closest small or equal value
 	if curr.Value == value {
 		return curr.Value
 	}
+	var res *BST
 
-	for curr.Left != nil || curr.Right != nil {
+	for curr != nil {
 		if value < curr.Value {
 			curr = curr.Left
 		} else if value > curr.Value {
+			res = curr
 			curr = curr.Right
 		} else {
 			return value
 		}
 	}
 
-	return curr.Value
+	return res.Value
 }
 
 func min(a, b int) int {
