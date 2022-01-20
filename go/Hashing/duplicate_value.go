@@ -16,6 +16,17 @@ func hasDuplicateValue(input []int) bool {
 	return false
 }
 
+// Given unsorted array of integers (NB. it can be array of negative, 0, positive values)
+// return a list of duplicate values ?
+// Input: [122, 32, 1, 0, 32, -22, -32, 44, -22, 0, -22]
+// Expected output: [32, -22, 0]
+// -100000 < arr[i] < 100000
+func ReturnDuplicateValues(input []int) []int {
+	result := []int{}
+
+	return result
+}
+
 func main() {
 	fmt.Println("Duplicate Linear function implemented:")
 	in := []int{1, 1, 2, 3, 4, 5, 6}

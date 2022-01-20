@@ -25,6 +25,38 @@ func LongestIncreasingSubsequence(input []int) int {
 
 	return result
 }
+
+func lengthOfLIS(nums []int) int {
+	tail := []int{}
+
+	tail = append(tail, nums[0])
+
+	for i := 1; i < len(nums); i++ {
+		if nums[i] > tail[len(tail)-1] {
+			tail = append(tail, nums[i])
+		} else {
+			c := ceilIdx(tail, 0, len(tail)-1, nums[i])
+			tail[c] = nums[i]
+		}
+	}
+
+	return len(tail)
+}
+
+func ceilIdx(tail []int, start int, end int, x int) int {
+	for start < end {
+		m := start + (end-start)/2
+
+		if tail[m] >= x {
+			end = m
+		} else {
+			start = m + 1
+		}
+	}
+
+	return end
+}
+
 func max(a, b int) int {
 	if a > b {
 		return a

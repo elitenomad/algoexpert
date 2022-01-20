@@ -52,11 +52,23 @@ func LeftRotateByDSpacesEfficient(input []int, d int) []int {
 	return input
 }
 
+func RightRotateByDSpacesEfficient(input []int, d int) []int {
+	input = reverse(input, 0, len(input)-1)
+	input = reverse(input, 0, d-1)
+	input = reverse(input, d, len(input)-1)
+
+	return input
+}
+
 func main() {
 	a := []int{1, 2, 3, 4, 5}
 	fmt.Println(LeftRotateByDSpaces(a, 3))
+
 	a = []int{1, 2, 3, 4, 5}
 	fmt.Println(LeftRotateByDSpacesII(a, 3))
 	a = []int{1, 2, 3, 4, 5}
 	fmt.Println(LeftRotateByDSpacesEfficient(a, 2))
+
+	a = []int{1, 2, 3, 4, 5}
+	fmt.Println(RightRotateByDSpacesEfficient(a, 3))
 }

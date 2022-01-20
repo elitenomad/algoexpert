@@ -1,6 +1,7 @@
 package main
 
 import (
+	"container/list"
 	"fmt"
 )
 
@@ -162,12 +163,17 @@ func (l *LinkedList) Reverse() *LinkedListNode {
 	return previous
 }
 
+type Position struct {
+	x int
+	y int
+}
+
 func main() {
-	linkedList := New()
-	linkedList.append(1)
-	linkedList.append(2)
-	linkedList.append(3)
-	linkedList.append(4)
+	// linkedList := New()
+	// linkedList.append(1)
+	// linkedList.append(2)
+	// linkedList.append(3)
+	// linkedList.append(4)
 	// linkedList.Length()
 	// linkedList.List()
 	// linkedList.prepend(0)
@@ -181,7 +187,21 @@ func main() {
 	// linkedList.List()
 	// linkedList.Length()
 	// linkedList.delete(3)
-	fmt.Println(linkedList.Reverse().Next.Next.Next)
-	linkedList.List()
+	// fmt.Println(linkedList.Reverse().Next.Next.Next)
+	// linkedList.List()
 	// linkedList.Length()
+
+	fmt.Println("Go Linked Lists Tutorial")
+
+	mylist := list.New()
+
+	pos_1 := Position{x: 1, y: 1}
+	pos_2 := Position{x: 10, y: 10}
+	mylist.PushBack(pos_1)
+	mylist.PushFront(pos_2)
+
+	for element := mylist.Front(); element != nil; element = element.Next() {
+		// do something with element.Value
+		fmt.Println(element.Value.(Position).x)
+	}
 }

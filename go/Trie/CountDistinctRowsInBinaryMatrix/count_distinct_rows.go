@@ -77,6 +77,7 @@ func CountDistinctRowsInBMII(input [][]int) int {
 		count += 1
 	}
 
+	// Actually we can find len(h) as well
 	return count
 }
 

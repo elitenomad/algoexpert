@@ -55,7 +55,7 @@ func MergeAndCount(array []int, left, middle, right int) int {
 	j := 0
 	k := left
 
-	res := 0 // Count which keeps track of i < j and a[i] > a[j]
+	res := 0 // Count which keeps track of i < j and a[	] > a[j]
 
 	for i < n1 && j < n2 {
 		if leftie[i] <= rightie[j] {

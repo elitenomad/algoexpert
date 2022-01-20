@@ -1,7 +1,3 @@
-package main
-
-import "fmt"
-
 type Node struct {
 	Key   int
 	Value int
@@ -9,10 +5,50 @@ type Node struct {
 	Prev  *Node
 }
 
-type LinkedList struct { // DLL
+type LinkedList struct {
 	Head *Node
 	Tail *Node
 	Size int
+}
+
+func (l *LinkedList) DeleteNode(node *Node) {
+	if node == nil || (node.Next == nil && node.Prev == nil) {
+		l.Head = nil
+		l.Tail = nil
+
+		return
+	}
+
+	// Tail
+	if node.Next == nil {
+		node.Prev.Next = nil
+		l.Tail = node.Prev
+		return
+	}
+
+	//Head
+	if node.Prev == nil {
+		node.Next.Prev = nil
+		l.Head = node.Next
+		return
+	}
+
+	node.Next.Prev = node.Prev
+	node.Prev.Next = node.Next.Next
+}
+
+func (l *LinkedList) AddToHead(node *Node) {
+	if l.Head == nil {
+		l.Head = node
+		l.Tail = node
+
+		return
+	}
+
+	l.Head.Prev = node
+	node.Next = l.Head
+	l.Head = node
+
 }
 
 type LRUCache struct {
@@ -22,79 +58,52 @@ type LRUCache struct {
 	List     *LinkedList
 }
 
-func New(cap int) *LRUCache {
-	return &LRUCache{
-		Capacity: cap,
+func Constructor(capacity int) LRUCache {
+	return LRUCache{
+		Capacity: capacity,
 		List:     &LinkedList{},
+		Data:     make(map[int]*Node),
 	}
 }
 
-func (l *LinkedList) List() {
-	current := l.Head
-
-	fmt.Println()
-	for current != nil {
-		fmt.Printf("Value : %d \t", current.Value)
-		current = current.Next
-	}
-}
-
-func (l *LinkedList) DeleteNode(node *Node) {
-	node.Prev.Next = node.Next.Next
-	node.Next.Prev = node.Prev
-}
-
-func (l *LinkedList) AddToHead(node *Node) {
-	l.Head.Prev = node
-	node.Next = l.Head
-	l.Head = node // decide on head
-}
-
-func (c *LRUCache) Get(key, val int) int {
-	// Get function should not only get the value
-	// But should move the node found to the MRU
-	if node, found := c.Data[key]; found {
+func (this *LRUCache) Get(key int) int {
+	if node, found := this.Data[key]; found {
+		// Delete the node
+		// Add it to the head
+		// Add it to hash again (not required but to ensure the value is not lost)
 		result := node.Value
-		c.List.DeleteNode(node)
-		c.List.AddToHead(node)
-		c.Data[key] = node // Not required but ensuring
+		this.List.DeleteNode(node)
+		this.List.AddToHead(node)
+		this.Data[key] = node
 		return result
 	}
 
 	return -1
 }
 
-func (c *LRUCache) Set(key, val int) {
-	// First find the value by the Key
-	// 	If it exists, replace the value
-	//	Delete Node
-	// 	Add it to Head
-
-	// If the Key do not exist
-	// Verify if we reached the capacity
-	//	If we reached Capacity delete tail from list and map
-	// 	Add the node to the head
-	// 	If we didnt reach the capacity
-	//	Increase the size and add the node to head.
-	if node, found := c.Data[key]; found {
-		node.Value = val
-		c.List.DeleteNode(node)
-		c.List.AddToHead(node)
+func (this *LRUCache) Put(key int, value int) {
+	if node, found := this.Data[key]; found {
+		node.Value = value // Just in case the value is changed in the next RUN
+		this.List.DeleteNode(node)
+		this.List.AddToHead(node)
 	} else {
-		node := &Node{Key: key, Value: val}
-		c.Data[key] = node
-		if c.Size < c.Capacity {
-			c.Size += 1
-			c.List.AddToHead(node)
+		node := &Node{Key: key, Value: value}
+		this.Data[key] = node
+
+		if this.Size < this.Capacity {
+			this.Size += 1
+			this.List.AddToHead(node)
 		} else {
-			delete(c.Data, c.List.Tail.Key)
-			c.List.DeleteNode(c.List.Tail)
-			c.List.AddToHead(node)
+			delete(this.Data, this.List.Tail.Key)
+			this.List.DeleteNode(this.List.Tail)
+			this.List.AddToHead(node)
 		}
 	}
 }
 
-func main() {
-	// ll := New(5)
-
-}
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * obj := Constructor(capacity);
+ * param_1 := obj.Get(key);
+ * obj.Put(key,value);
+ */

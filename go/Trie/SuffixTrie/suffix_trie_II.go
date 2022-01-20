@@ -37,7 +37,7 @@ func (t *Trie) Contains(word string) bool {
 		index := word[j] - 'a'
 
 		if currentNode.children[index] == nil {
-			currentNode.children[index] = &TrieNode{}
+			return false
 		}
 		currentNode = currentNode.children[index]
 	}
