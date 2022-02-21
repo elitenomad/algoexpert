@@ -41,6 +41,39 @@ func NaiveParitionHelper(input []int, low, high, pivot int) int { //O(n) T and O
 	return pivot
 }
 
+func NaivePartionLinear(input []int, l, h, p int) int {
+	temp := make([]int, h-l+1)
+	index := 0
+
+	for i := l; i <= h; i++ {
+		if input[i] < input[p] {
+			temp[index] = input[i]
+			index += 1
+		}
+	}
+
+	for i := l; i <= h; i++ {
+		if input[i] == input[p] {
+			temp[index] = input[i]
+			index += 1
+		}
+	}
+
+	res := l + index - 1 // you can just say index
+	for i := l; i <= h; i++ {
+		if input[i] > input[p] {
+			temp[index] = input[i]
+			index += 1
+		}
+	}
+
+	for i := l; i <= h; i++ {
+		input[i] = temp[i-l]
+	}
+
+	return res
+}
+
 func main() {
 	a := []int{3, 8, 6, 12, 10, 7}
 	fmt.Println(NaiveParition(a, 2))

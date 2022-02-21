@@ -21,7 +21,7 @@ func NextGreaterElementNaive(array []int) {
 // Thing to note is that it will display the elements in
 // the reverse order
 func NextGreaterElementEfficient(array []int) {
-	stack := NewStack()
+	stack := NewStack() // 5, 15, 10, 8, 6, 12, 9, 18
 	stack.Push(array[len(array)-1])
 	fmt.Println("<<", -1, ">>")
 
@@ -33,7 +33,7 @@ func NextGreaterElementEfficient(array []int) {
 		if stack.IsEmpty() {
 			res = -1
 		} else {
-			res = stack.Pop()
+			res = stack.Peek()
 		}
 
 		fmt.Println("<<", res, ">>")

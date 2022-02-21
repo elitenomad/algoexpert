@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 )
 
 // Do not edit the class below except for
@@ -183,6 +184,7 @@ func min(a, b int) int {
 
 	return b
 }
+
 func Ceil(root *BST, value int) int { // Closest large or equal value
 	curr := root
 	var result *BST
@@ -199,6 +201,32 @@ func Ceil(root *BST, value int) int { // Closest large or equal value
 	}
 
 	return result.Value
+}
+
+func CheckBST(tree *BST) bool {
+	return CheckBSTHelper(tree, math.MinInt32, math.MaxInt32)
+}
+
+/*
+				80 (-INF to INF)
+		(-INF to 80)
+		70 				90(80 to INF)
+(-INF to 70)(70 to 80)(80 to 90)
+	60		75		85		100 (90 to INF)
+*/
+func CheckBSTHelper(tree *BST, min, max int) bool {
+	if tree == nil {
+		return true
+	}
+
+	if tree.Value < min || tree.Value >= max {
+		return false
+	}
+
+	leftValid := CheckBSTHelper(tree.Left, min, tree.Value)
+	rightValid := CheckBSTHelper(tree.Right, tree.Value, max)
+
+	return leftValid && rightValid
 }
 
 func main() {
